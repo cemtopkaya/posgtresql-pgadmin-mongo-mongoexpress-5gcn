@@ -1,0 +1,80 @@
+{
+  "Database": {
+    "ConnectionPoolSize": 8,
+    "ConnectionRetryPeriod": 10000,
+    "SubscriptionCheckPeriod": 60000,
+    "ConnectionTimeout": 3,
+    "DatabaseName": "$UDR_POSTGRES_DB_NAME",
+    "DatabaseType": "POSTGRESQL",
+    "UserName": "$PAAS_POSTGRES_USER",
+    "Password": "$PAAS_POSTGRES_PASS",
+    "Server": "$PAAS_POSTGRES",
+    "Port": $PAAS_POSTGRES_PORT
+  },
+  "General": {
+    "ClientCount": 4,
+    "ClientTLSMutual": false,
+    "ClientTimeout": 3000,
+    "DataRepositoryCustomIP": "0.0.0.0",
+    "DataRepositoryCustomOAuth2Enabled": false,
+    "DataRepositoryCustomPort": 5422,
+    "DataRepositoryCustomTLSEnabled": false,
+    "PrometheusIP": "0.0.0.0",
+    "PrometheusPort": 5019,
+    "PrometheusTLSEnabled": false,
+    "PrometheusThreadCount": 1,
+    "SettingsIP": "0.0.0.0",
+    "SettingsOAuth2Enabled": false,
+    "SettingsPort": 5421,
+    "SettingsTLSEnabled": true,
+    "SettingsTLSMutualAuth": false,
+    "SettingsThreadCount": 1,
+    "SubscriptionIP": "0.0.0.0",
+    "SubscriptionPort": 5423,
+    "SubscriptionTLSEnabled": false,
+    "SubscriptionTLSMutualAuth": false,
+    "SubscriptionThreadCount": 1,
+    "homePlmnId": {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  },
+  "Logging": {
+    "Directory": "/var/log/cinar/udr/",
+    "DisplayLog": true,
+    "FileName": "cnrudr",
+    "LogLevel": "DEBUG"
+  },
+  "Nrf": {
+    "ClientCount": 1,
+    "ClientTimeout": 3000,
+    "DiscServicePort": 8006,
+    "FQDN": "",
+    "IPAddress": "$ULAK_NRF",
+    "NfmServicePort": 8001,
+    "OAuth2ServicePort": 8007,
+    "TAccessTokenPeriod": 1000,
+    "TCheckPeriod": 60000,
+    "TDiscoveryPeriod": 3000,
+    "TLSMutualAuth": false,
+    "TLSSecure": false,
+    "TRetryPeriod": 3000,
+    "TSubscriptionPeriod": 10000
+  },
+  "Security": {
+    "OAuth2": {
+      "PublicKeyFile": "certificate/jwt.pub"
+    },
+    "TLS": {
+      "PrivateKeyFile": "certificate/localhost.key",
+      "PublicKeyFile": "certificate/localhost.crt"
+    }
+  },
+  "nudr-dr": {
+    "MutualAuthenticate": false,
+    "NumberOfServiceThreads": 1,
+    "OAuth2Enabled": false,
+    "VersionFull": "2.0.1.alpha-1",
+    "VersionInUri": "v2"
+  }
+}

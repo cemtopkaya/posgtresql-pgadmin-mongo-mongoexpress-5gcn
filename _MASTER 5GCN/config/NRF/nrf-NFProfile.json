@@ -1,0 +1,70 @@
+{
+  "allowedNfDomains": [],
+  "allowedNfTypes": [
+    "NRF"
+  ],
+  "allowedNssais": [
+    {
+      "sst": 1
+    }
+  ],
+  "fqdn": "",
+  "ipv4Addresses": [
+    "$ULAK_NRF"
+  ],
+  "ipv6Addresses": [],
+  "nfInstanceId": "$NRF_INSTANCE_ID",
+  "nfServices": [
+    {
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_NRF",
+          "ipv6Address": "",
+          "port": 8001
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "$NRF_INSTANCE_ID",
+      "serviceName": "nnrf-nfm",
+      "versions": [
+        {
+          "apiFullVersion": "v1",
+          "apiVersionInUri": "/nnrf-nfm/v1"
+        }
+      ]
+    },
+    {
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_NRF",
+          "ipv6Address": "",
+          "port": 8006
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "$NRF_INSTANCE_ID",
+      "serviceName": "nnrf-disc",
+      "versions": [
+        {
+          "apiFullVersion": "v1",
+          "apiVersionInUri": "/nnrf-disc/v1"
+        }
+      ]
+    }
+  ],
+  "nfStatus": "REGISTERED",
+  "nfType": "NRF",
+  "plmnList": [
+    {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  ],
+  "sNssais": [
+    {
+      "sst": 1
+    }
+  ]
+}

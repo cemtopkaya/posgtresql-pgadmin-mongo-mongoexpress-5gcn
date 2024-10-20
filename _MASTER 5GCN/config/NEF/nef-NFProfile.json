@@ -1,0 +1,61 @@
+{
+  "allowedNfDomains": [],
+  "allowedNfTypes": [
+    "NEF",
+    "PCF",
+    "UDM",
+    "UDR",
+    "AF"
+  ],
+  "allowedNssais": [
+    {
+      "sst": 1
+    }
+  ],
+  "allowedPlmns": [],
+  "fqdn": "",
+  "heartBeatTimer": 3,
+  "interPlmnFqdn": "",
+  "ipv4Addresses": [
+    "$ULAK_NEF"
+  ],
+  "ipv6Addresses": [],
+  "nfInstanceId": "$NEF_INSTANCE_ID",
+  "nfServices": [
+    {
+      "allowedNfDomains": [],
+      "allowedNfTypes": [],
+      "allowedNssais": [],
+      "allowedPlmns": [],
+      "fqdn": "",
+      "interPlmnFqdn": "",
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_NEF",
+          "ipv6Address": "",
+          "port": 8201,
+          "transport": ""
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "recoveryTime": "",
+      "scheme": "http",
+      "serviceInstanceId": "$NEF_INSTANCE_ID",
+      "serviceName": "nnef-pfdmanagement",
+      "versions": [
+        {
+          "apiFullVersion": "v1",
+          "apiVersionInUri": "/nnef-pfdmanagement/v1",
+          "expiry": ""
+        }
+      ]
+    }
+  ],
+  "nfStatus": "REGISTERED",
+  "nfType": "NEF",
+  "sNssais": [
+    {
+      "sst": 1
+    }
+  ]
+}

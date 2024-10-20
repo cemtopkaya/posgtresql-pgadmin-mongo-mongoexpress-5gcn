@@ -1,0 +1,34 @@
+{
+  "ServiceSettings": {
+    "ServiceInstanceID": "$PCF_IWS_SERVICE_INSTANCE_ID",
+    "Versions": [
+      {
+        "APIVersionInUri": "v1",
+        "APIFullVersion": "1.0.0.alpha-1",
+        "Expiry": "2030-Feb-15T10:43:23Z"
+      }
+    ],
+    "IPEndPoints": [
+      {
+        "IPv4Address": "$ULAK_PCF_IWS",
+        "IPv6Address": "",
+        "Port": 7020,
+        "Transport": "TCP"
+      }
+    ],
+    "Scheme": "http",
+    "SSLCertificateKeyFile": "certificate/localhost.key",
+    "SSLCertificateFile": "certificate/localhost.crt",
+    "accessTokenStatus": true,
+    "LogDirectory": "/var/log/cinar/pcf/iws/",
+    "DisplayLog": true,
+    "CreateLogFile": true,
+    "K8SActive": false,
+    "smsHost": "$ULAK_PCF_SMS",
+    "smsPort": 7002,
+    "smsClientTLSSecure": true,
+    "numOfClientThreads": 4,
+    "connectionTimeout": 1000,
+    "responseTimeout": 6000
+  }
+}

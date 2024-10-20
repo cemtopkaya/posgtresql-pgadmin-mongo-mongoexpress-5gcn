@@ -1,0 +1,159 @@
+{
+  "allowedNfTypes": [
+    "UDM",
+    "AMF",
+    "SMF"
+  ],
+  "allowedNssais": [
+    {
+      "sst": 1
+    }
+  ],
+  "allowedPlmns": [
+    {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  ],
+  "ipv4Addresses": [
+    "$ULAK_AUSF"
+  ],
+  "ipv6Addresses": [
+    "::"
+  ],
+  "nfInstanceId": "$AUSF_INSTANCE_ID",
+  "nfServices": [
+    {
+      "allowedNfTypes": [
+        "UDM",
+        "AMF",
+        "SMF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_AUSF",
+          "port": 5500,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "f19bab0e-aa43-450f-bda3-0fdc5f8c368a",
+      "serviceName": "nausf-auth",
+      "versions": [
+        {
+          "apiFullVersion": "2.0.1.alpha-1",
+          "apiVersionInUri": "v1"
+        }
+      ]
+    },
+    {
+      "allowedNfTypes": [
+        "UDM",
+        "AMF",
+        "SMF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_AUSF",
+          "port": 5501,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "be15d2b1-ada2-4853-81b7-fabca1d461cf",
+      "serviceName": "nausf-sorprotection",
+      "versions": [
+        {
+          "apiFullVersion": "2.0.1.alpha-1",
+          "apiVersionInUri": "v1"
+        }
+      ]
+    },
+    {
+      "allowedNfTypes": [
+        "UDM",
+        "AMF",
+        "SMF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_AUSF",
+          "port": 5502,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "002c6fac-22dc-41c0-8a14-20e9597ea12a",
+      "serviceName": "nausf-upuprotection",
+      "versions": [
+        {
+          "apiFullVersion": "2.0.1.alpha-1",
+          "apiVersionInUri": "v1"
+        }
+      ]
+    }
+  ],
+  "nfStatus": "REGISTERED",
+  "nfType": "AUSF",
+  "perPlmnSnssaiList": [
+    {
+      "plmnId": {
+        "mcc": "001",
+        "mnc": "002"
+      },
+      "sNssaiList": [
+        {
+          "sst": 1
+        }
+      ]
+    }
+  ],
+  "plmnList": [
+    {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  ],
+  "recoveryTime": "2024-09-18T06:40:36Z",
+  "sNssais": [
+    {
+      "sst": 1
+    }
+  ]
+}

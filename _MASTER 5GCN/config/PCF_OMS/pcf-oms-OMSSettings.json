@@ -1,0 +1,67 @@
+{
+  "ServiceSettings": {
+    "ServiceInstanceID": "$PCF_OMS_SERVICE_INSTANCE_ID",
+    "Versions": [
+      {
+        "APIVersionInUri": "v1",
+        "APIFullVersion": "1.0.0.alpha-1",
+        "Expiry": "2025-Feb-15T10:43:23Z"
+      }
+    ],
+    "IPEndPoints": [
+      {
+        "IPv4Address": "$ULAK_PCF_OMS",
+        "IPv6Address": "",
+        "Port": 7052,
+        "Transport": "TCP"
+      }
+    ],
+    "Scheme": "http",
+    "SSLCertificateKeyFile": "certificate/localhost.key",
+    "SSLCertificateFile": "certificate/localhost.crt",
+    "accessTokenStatus": false,
+    "SaveMetricsInDB": false,
+    "MetricExposureHost": "",
+    "MetricExposurePort": 7060,
+    "K8SActive": false,
+    "LogDirectory": "/var/log/cinar/pcf/oms/",
+    "DisplayLog": true,
+    "CreateLogFile": true
+  },
+  "DBSettings": {
+    "dbtype": "mongodb",
+    "host": "$PAAS_MONGO",
+    "port": $PAAS_MONGO_PORT,
+    "dbname": "$PCF_MONGO_DB_NAME",
+    "username": "$PAAS_MONGO_USER",
+    "password": "$PAAS_MONGO_PASS",
+    "minPoolSize": 4,
+    "maxPoolSize": 4
+  },
+  "pcfMicroServices": {
+    "pcfMicroservicesSettings": [
+      {
+        "pcfMicroServiceHost": "$ULAK_PCF_CS",
+        "pcfMicroServiceName": "npcf-configuration",
+        "pcfMicroServicePort": 7050
+      },
+      {
+        "pcfMicroServiceHost": "$ULAK_PCF_SMS",
+        "pcfMicroServiceName": "npcf-smpolicycontrol",
+        "pcfMicroServicePort": 7004
+      },
+      {
+        "pcfMicroServiceHost": "$ULAK_PCF_AMS",
+        "pcfMicroServiceName": "npcf-am-policy-control",
+        "pcfMicroServicePort": 7001
+      }
+    ]
+  },
+  "SchedulerTimers": {
+    "DailySchedulerTimer": 60,
+    "WeeklySchedulerTimer": 70,
+    "MonthlySchedulerTimer": 80,
+    "YearlySchedulerTimer": 90,
+    "OneTimeSchedulerTimer": 10
+  }
+}

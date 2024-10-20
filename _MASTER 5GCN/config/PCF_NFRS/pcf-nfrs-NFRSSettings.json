@@ -1,0 +1,14 @@
+{
+  "PCFCSHost": "$ULAK_PCF_CS",
+  "PCFCSPort": 7500,
+  "retryCounter": 3,
+  "PCFCSTlsSecure": false,
+  "PCFCSAccessTokenStatus": false,
+  "connectionTimeout": 1500,
+  "responseTimeout": 1000,
+  "SettingsSubscriptionTimeout": 1,
+  "LogDirectory": "/var/log/cinar/pcf/nfrs/",
+  "DisplayLog": true,
+  "CreateLogFile": true,
+  "PCFNFRSAddress": "$ULAK_PCF_NFRS"
+}

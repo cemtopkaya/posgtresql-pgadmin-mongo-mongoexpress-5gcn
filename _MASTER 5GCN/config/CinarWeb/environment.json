@@ -1,0 +1,245 @@
+{
+  "production": false,
+  "location": "VTO",
+  "nfList": [
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "AMF1",
+      "servingSlices": [
+        "AMF1_1"
+      ],
+      "networkFunctionName": "AMF"
+    },
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "AUSF",
+      "servingSlices": [
+        "AUSF_1"
+      ],
+      "networkFunctionName": "AUSF"
+    },
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "NEF",
+      "servingSlices": [
+        "NEF_1"
+      ],
+      "networkFunctionName": "NEF"
+    },
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "NRF",
+      "servingSlices": [
+        "NRF_1"
+      ],
+      "networkFunctionName": "NRF"
+    },
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "NSSF",
+      "servingSlices": [
+        "NSSF_1"
+      ],
+      "networkFunctionName": "NSSF"
+    },
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "PCF",
+      "servingSlices": [
+        "PCF1_1"
+      ],
+      "networkFunctionName": "PCF"
+    },
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "SMF",
+      "servingSlices": [
+        "SMF1_1"
+      ],
+      "networkFunctionName": "SMF"
+    },
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "UDM",
+      "servingSlices": [
+        "UDM_1"
+      ],
+      "networkFunctionName": "UDM"
+    },
+    {
+      "ipAddress": "192.168.13.8",
+      "id": "UDR",
+      "servingSlices": [
+        "UDR_1"
+      ],
+      "networkFunctionName": "UDR"
+    }
+  ],
+  "modules": [
+    {
+      "name": "@cinar/cn-common-utility",
+      "copyAssets": false,
+      "i18n": false
+    },
+    {
+      "name": "@cinar/cn-nrf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-nef",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-nssf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-network",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-udr",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-udm",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-ausf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-smf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-upf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/mc-cms",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/mc-common",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/mc-gms",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/mc-idms",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/mc-shared",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/mc-core",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/mc-sub",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-main",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-udr-sub",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-amf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-icscf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-pcscf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-scscf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-pcf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/mc-systems",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-mrf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-tas",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-ecscf",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-ipsmgw",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-bmsc",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/ims-mbmsgw",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/gui-shared",
+      "copyAssets": true,
+      "i18n": true
+    },
+    {
+      "name": "@cinar/cn-smsf",
+      "copyAssets": true,
+      "i18n": true
+    }
+  ]
+}

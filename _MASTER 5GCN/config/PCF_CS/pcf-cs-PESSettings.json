@@ -1,0 +1,26 @@
+{
+  "database": {
+    "ConnectionPoolSize": 10,
+    "DatabaseName": "$PCF_MONGO_DB_NAME",
+    "DatabaseType": "mongodb",
+    "Port": $PAAS_MONGO_PORT,
+    "Server": "$PAAS_MONGO",
+    "Password": "$PAAS_MONGO_PASS",
+    "UserName": "$PAAS_MONGO_USER"
+  },
+  "logging": {
+    "Directory": "/var/log/cinar/pcf/pes/",
+    "LogLevel": "INFO"
+  },
+  "pesSettings": {
+    "accessTokenStatus": false,
+    "k8SActive": false,
+    "pesSubscriptionNotifyCallbackServerPort": 7051,
+    "serviceInstanceId": "",
+    "versions": {
+      "apiFullVersion": "1.0.0.alpha-1",
+      "apiVersionInUri": "v1",
+      "expiry": "2030-02-15T10:43:23Z"
+    }
+  }
+}

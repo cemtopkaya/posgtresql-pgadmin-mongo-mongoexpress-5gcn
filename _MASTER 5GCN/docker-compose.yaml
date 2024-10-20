@@ -1,0 +1,813 @@
+services:
+
+# ============= PaaS ==============================================
+  paas_mongo:
+    container_name: paas_mongo
+    hostname: mongo
+    image: mongo:7.0.14
+    #command: mongod --port 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: cekirdekSebekeKullanicisi
+      MONGO_INITDB_ROOT_PASSWORD: sifreCokGizli
+      MONGO_INITDB_DATABASE: admin
+    ports:
+      - 27017:27017
+    networks:
+      privnet:
+        ipv4_address: '20.20.255.1'
+        aliases:
+          - mongo.ulak5gcn
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+
+  paas_postgres:
+    container_name: paas_postgres
+    hostname: postgres
+    image: postgres:10.14
+    environment:
+      POSTGRES_DB: admin
+      POSTGRES_USER: ${PAAS_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${PAAS_POSTGRES_PASS}
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_disconnections=on", "-c", "log_connections=on"]
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cekirdekSebekeKullanicisi -d admin']
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    networks:
+      privnet:
+        ipv4_address: '20.20.255.2'
+        aliases:
+          - postgres.ulak5gcn
+
+  paas_rabbitmq:
+    container_name: paas_rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:3.13.6-management
+    # image: 'bitnami/rabbitmq:3.11.8-debian-11-r0'
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin # RabbitMQ yönetici kullanıcı adı
+      - RABBITMQ_DEFAULT_PASS=admin # RabbitMQ yönetici kullanıcı şifresi
+      - RABBITMQ_VHOST='/' # RabbitMQ kullanıcı için sanal ana bilgisayar adı (RabbitMQ yönetici kullanıcı için sanal ana bilgisayar adı ile aynı olmamalı)
+      - RABBITMQ_PLUGINS="rabbitmq_management" # RabbitMQ eklentileri (örneğin, yönetim eklentisi)
+      - RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true # Allow web access to RabbitMQ management portal for RABBITMQ_USERNAME
+    ports:
+      # amqp: 5672
+      # amqpTls: 5671
+      # dist: 25672
+      # manager: 15672
+      # epmd: 4369
+      # metrics: 9419
+      - 5672:5672 # AMQP protokolü için standart port
+      - 15672:15672 # Web tabanlı yönetim arayüzü için port
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', 'ping']
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    networks:
+      privnet:
+        ipv4_address: '20.20.255.3'
+        aliases:
+          - rabbit.ulak5gcn
+
+  paas_mongo_express:
+    image: mongo-express # https://hub.docker.com/_/mongo-express
+    container_name: paas_mongo_express
+    hostname: mongo_express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://cekirdekSebekeKullanicisi:sifreCokGizli@20.20.255.1:27017/
+      ME_CONFIG_MONGODB_ADMINUSERNAME: cekirdekSebekeKullanicisi # GUI kullanıcı adı
+      ME_CONFIG_MONGODB_ADMINPASSWORD: sifreCokGizli # GUI kullanıcı şifresi
+      ME_CONFIG_BASICAUTH: 'false'
+      ME_CONFIG_OPTIONS_EDITORTHEME: ambiance
+    networks:
+      privnet:
+        ipv4_address: '20.20.255.4'
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+
+  paas_pgadmin:
+    container_name: paas_pgadmin
+    hostname: pgadmin
+    image: dpage/pgadmin4
+    user: root
+    entrypoint: /init.sh
+    volumes:
+      - ./config/PGADMIN/init.sh:/init.sh
+      - ./ready_config/PGADMIN/servers.json:/pgadmin4/servers.json
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      AUTHENTICATION_SOURCES: internal
+      PGADMIN_LISTEN_ADDRESS: '0.0.0.0'
+      PGADMIN_LISTEN_PORT: 80
+      # otomatik giriş yapabilmek için ortam değişkeni olarak veriyorum
+      PGPASS_DIR: /var/lib/pgadmin/storage/admin_example.com
+      PGPASS_FILE: /pgpass
+      PAAS_POSTGRES: ${PAAS_POSTGRES}
+      PAAS_POSTGRES_PORT: ${PAAS_POSTGRES_PORT}
+      PAAS_POSTGRES_USER: ${PAAS_POSTGRES_USER}
+      PAAS_POSTGRES_PASS: ${PAAS_POSTGRES_PASS}
+      # AUTHENTICATION_SOURCES: ldap
+      # LDAP_AUTO_CREATE_USER: True
+      # LDAP_SERVER_URI: 'ldap://192.168.10.12'
+      # LDAP_USE_STARTTLS: False
+      # LDAP_USERNAME_ATTRIBUTE: 'sAMAccountName'
+      # LDAP_BASE_DN: 'cn=Users,dc=ulakhaberlesme,dc=com,dc=tr'
+      # LDAP_SEARCH_FILTER: '(&(objectCategory=Person)(sAMAccountName=*))'
+    ports:
+      - 8082:80
+    networks:
+      privnet:
+        ipv4_address: '20.20.255.5'
+    depends_on:
+      init_config:
+        condition: service_completed_successfully
+      paas_postgres:
+        condition: service_healthy
+    # configs:
+    #   - source: servers.json
+    #     target: /pgadmin4/servers.json
+    #   - source: pgpass
+    #     target: /pgadmin4/pgpass
+
+  netshoot:
+    image: "nicolaka/netshoot"
+    container_name: cn_netshoot
+    command: tail -f /dev/null
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      privnet:
+        ipv4_address: '20.20.255.6'
+
+  ueransim:
+    container_name: ueransim
+    image: free5gc/ueransim:latest
+    command: /bin/bash -c "./nr-gnb -c ./config/gnbcfg.yaml & sleep 10 && ./nr-ue -c ./config/uecfg.yaml"
+    volumes:
+      - ./ready_config/UERANSIM/ulak-gnb.yaml:/ueransim/config/gnbcfg.yaml
+      - ./ready_config/UERANSIM/ulak-ue.yaml:/ueransim/config/uecfg.yaml
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - '/dev/net/tun'
+    networks:
+      privnet:
+        ipv4_address: '20.20.255.7'
+        aliases:
+          - gnb.ulak5gcn
+    depends_on:
+      - ulak_amf
+      # - ulak_upf
+
+  init_config:
+    container_name: init_config
+    build:
+      context: .
+      dockerfile: Dockerfile-init
+    image: init_config_image
+    user: root
+    volumes:
+      - ./config:/config
+      - ./ready_config:/ready_config
+      - ./docker-compose.yaml:/docker-compose.yaml:ro
+    networks:
+      privnet:
+        ipv4_address: '20.20.255.8'
+    command: bash /config/init_config/init_config.sh
+    environment:
+      - RUN_MONGODB_SCRIPTS=True
+      - RUN_POSTGRESQL_SCRIPTS=True
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      paas_postgres:
+        condition: service_healthy
+      paas_rabbitmq:
+        condition: service_healthy
+
+# ============= ULAK 5G CN ========================================
+
+  ulak_gui:
+    container_name: 5gcn_gui
+    image: registry.ulakhaberlesme.com.tr/ulak/cinar-web:latest-generic
+    ports:
+      - "8083:80"
+    volumes:
+      - ./ready_config/CinarWeb/environment.json:/usr/share/nginx/html/assets/environments/environment.json
+    networks:
+      privnet:
+        ipv4_address: '20.20.0.2'
+    depends_on:
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_amf:
+    container_name: 5gcn_amf
+    image: registry.ulakhaberlesme.com.tr/cinar/amf/monolith:latest-stable-xenial-dbg
+    ports:
+      # - 6210:6210 # http2-namf-comm-6210"
+      # - 6211:6211 # http2-namf-evts-6211"
+      # - 6212:6212 # http2-namf-mt-6212"
+      # - 6213:6213 # http2-namf-loc-6213"
+      - 6224:6224 # http2-prometheus-server-6224"
+      # - 6286:6286 # http2-sbi-callback-6286"
+      # - 6287:6287 # http2-nrf-callback-6287"
+      - 6290:6290 # http2-gui-6290"
+      - 38412:38412 # sctp-38412"
+    volumes:
+      - ./ready_config/AMF/amf-settings.json:/opt/cinar/amf/settings.json
+      - ./common_certs/:/opt/cinar/certificate
+      - ./common_certs/:/opt/cinar/amf/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.1.2'
+        aliases:
+          - amf.ulak5gcn
+    depends_on:
+      ulak_nrf:
+        condition: service_healthy
+      paas_rabbitmq:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_ausf:
+    container_name: 5gcn_ausf
+    image: registry.ulakhaberlesme.com.tr/cinar/ausf/monolith:latest-stable-xenial
+    command: /bin/bash -c "./cnrausf & tail -f /dev/null"
+    ports:
+      # - 5500:5500 # http-nausf-auth-5500
+      # - 5501:5501 # http-nausf-sorprotection-5501
+      # - 5502:5502 # http-5502
+      - 5520:5520 # http-prometheus-5520
+      - 5521:5521 # http-settings-5521
+      # - 5522:5522 # http-subscription-5522
+    volumes:
+      - ./ready_config/AUSF/ausf-settings.json:/opt/cinar/ausf/settings.json
+      - ./ready_config/AUSF/ausf-NFProfile.json:/opt/cinar/ausf/NFProfile.json
+      - ./common_certs/:/opt/cinar/certificate
+      - ./common_certs/:/opt/cinar/auf/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.2.1'
+        aliases:
+          - ausf.ulak5gcn
+    depends_on:
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_nef:
+    container_name: 5gcn_nef
+    image: registry.ulakhaberlesme.com.tr/cinar/nef/monolith:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrnef & tail -f /dev/null"
+    ports:
+      # - 8019:8019 # http-notification-callback-8019
+      # - 8201:8201 # http-nnef-pfdmanagement-8201
+      # - 8202:8202 # http-3gpp-pfd-management-8202
+      # - 8203:8203 # http-3gpp-traffic-influence-8203
+      # - 8204:8204 # http-nef-settings-8204
+      - 8205:8205 # http-metrics-8205
+      # - 8206:8206 # http-3gpp-monitoring-event-8206
+      # - 8207:8207 # http-oauth2-token-8207
+      # - 8208:8208 # http-3gpp-bdt-8208
+      # - 8209:8209 # http-3gpp-cp-8209
+      # - 8210:8210 # http-3gpp-as-session-with-qos-8210
+      # - 8211:8211 # http-3gpp-device-triggering-8211
+      # - 8212:8212 # http-nnef-afprofilemanagement-8212
+      - 8215:8215 # http-log-8215
+      - 8220:8220 # http-monitoring-callback-8220
+      # - 8221:8221 # http-qos-callback-8221
+      # - 8222:8222 # http-traffic-influnce-callback-8222
+    volumes:
+      - ./ready_config/NEF/nef-settings.json:/opt/cinar/nef/settings.json
+      - ./ready_config/NEF/nef-NFProfile.json:/opt/cinar/nef/NFProfile.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/nef/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.3.2'
+        aliases:
+          - nef.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "grep -q 'DB connection is successful' /var/log/cinar/nef/NEF.log"
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_nrf:
+    container_name: 5gcn_nrf
+    image: registry.ulakhaberlesme.com.tr/cinar/nrf/monolith:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrnrf & tail -f /dev/null"
+    ports:
+      # - 8001:8001 # http2-ep1-8001
+      - 8005:8005 # http2-log-8005
+      # - 8006:8006 # http2-ep2-8006
+      # - 8007:8007 # http2-oauth2-8007
+      - 8009:8009 # http2-nrf-settings-8009
+      - 8010:8010 # http-metrics-8010
+    volumes:
+      - ./ready_config/NRF/nrf-settings.json:/opt/cinar/nrf/settings.json
+      - ./ready_config/NRF/nrf-NFProfile.json:/opt/cinar/nrf/NFProfile.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/nrf/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.4.1'
+        aliases:
+          - nrf.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "grep -q 'DB connection is successful' /var/log/cinar/nrf/NRF.log"
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_nssf:
+    container_name: 5gcn_nssf
+    image: registry.ulakhaberlesme.com.tr/cinar/nssf/monolith:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrnssf & tail -f /dev/null"
+    ports:
+      # - 8100:8100 # http2-nnssf-nsselection-8100
+      # - 8101:8101 # http2-nnssf-nssaiavailability-8101
+      # - 8102:8102 # http2-nssf-configuration-8102
+      - 8103:8103 # http2-nssf-settings-8103
+      - 8104:8104 # http2-metrics-8104
+      - 8105:8105 # http2-log-8105
+    volumes:
+      - ./ready_config/NSSF/nssf-settings.json:/opt/cinar/nssf/settings.json
+      - ./ready_config/NSSF/nssf-NFProfile.json:/opt/cinar/nssf/NFProfile.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/nssf/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.5.2'
+        aliases:
+          - nssf.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "grep -q 'DB connection is successful' /var/log/cinar/nssf/NSSF.log"
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_pcf_ams:
+    container_name: 5gcn_pcf_ams
+    image: registry.ulakhaberlesme.com.tr/cinar/pcf/ams:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrpcfams & tail -f /dev/null"
+    ports: []
+    #   - 7000:7000 # endpoint
+    #   - 7001:7001 # notifyserver
+    #   - 7010:7010 # notifycallback
+    volumes:
+      - ./ready_config/PCF_AMS/pcf-ams-AMSConfig.json:/opt/cinar/pcf/ams/AMSConfig.json
+      - ./ready_config/PCF_AMS/pcf-ams-AMSSettings.json:/opt/cinar/pcf/ams/AMSSettings.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/pcf/ams/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.6.2'
+        aliases:
+          - pcf-ams.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 7000 7001 7010; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_pcf_cs:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_pcf_cs:
+    container_name: 5gcn_pcf_cs
+    image: registry.ulakhaberlesme.com.tr/cinar/pcf/cs:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrpcfcs & tail -f /dev/null"
+    ports: []
+    #   - 7050:7050 # http2-npcf-configuration-7050
+    #   - 7500:7500 # http2-nbi-7500
+    volumes:
+      - ./ready_config/PCF_CS/pcf-cs-AMSSettings.json:/opt/cinar/pcf/cs/AMSSettings.json
+      - ./ready_config/PCF_CS/pcf-cs-CommonData.json:/opt/cinar/pcf/cs/CommonData.json
+      - ./ready_config/PCF_CS/pcf-cs-CSSettings.json:/opt/cinar/pcf/cs/CSSettings.json
+      - ./ready_config/PCF_CS/pcf-cs-NFRSSettings.json:/opt/cinar/pcf/cs/NFRSSettings.json
+      - ./ready_config/PCF_CS/pcf-cs-PESSettings.json:/opt/cinar/pcf/cs/PESSettings.json
+      - ./ready_config/PCF_CS/pcf-cs-SMSSettings.json:/opt/cinar/pcf/cs/SMSSettings.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/pcf/cs/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.6.3'
+        aliases:
+          - pcf-cs.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 7050 7500; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_pcf_iws:
+    container_name: 5gcn_pcf_iws
+    image: registry.ulakhaberlesme.com.tr/cinar/pcf/iws:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrpcfiws & tail -f /dev/null"
+    ports: []
+    #   - 3868:3868 # http2-diameter
+    #   - 7020:7020 # http2-endpoint
+    volumes:
+      - ./ready_config/PCF_IWS/pcf-iws-Settings.json:/opt/cinar/pcf/iws/Settings.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/pcf/iws/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.6.4'
+        aliases:
+          - pcf-iws.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 3868 7020; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_pcf_cs:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_pcf_nfrs:
+    container_name: 5gcn_pcf_nfrs
+    image: registry.ulakhaberlesme.com.tr/cinar/pcf/nfrs:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrpcfnfrs & tail -f /dev/null"
+    ports: []
+    #   - 7080:7080 # notify-callback
+    volumes:
+      - ./ready_config/PCF_NFRS/pcf-nfrs-NFRSSettings.json:/opt/cinar/pcf/nfrs/NFRSSettings.json
+      - ./ready_config/PCF_NFRS/pcf-nfrs-NFRSConfig.json:/opt/cinar/pcf/nfrs/NFRSConfig.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/pcf/nfrs/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.6.5'
+        aliases:
+          - pcf-nfrs.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 7080; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_pcf_cs:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_pcf_oms:
+    container_name: 5gcn_pcf_oms
+    image: registry.ulakhaberlesme.com.tr/cinar/pcf/oms:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrpcfoms & tail -f /dev/null"
+    ports:
+      # - 7052:7052 # endpoint
+      - 7060:7060 # metric-exposure
+    volumes:
+      - ./ready_config/PCF_OMS/pcf-oms-OMSSettings.json:/opt/cinar/pcf/oms/OMSSettings.json
+      - ./ready_config/PCF_OMS/pcf-oms-OMSConfig.json:/opt/cinar/pcf/oms/OMSConfig.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/pcf/oms/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.6.6'
+        aliases:
+          - pcf-oms.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 7052 7060; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_pcf_cs:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_pcf_pes:
+    container_name: 5gcn_pcf_pes
+    image: registry.ulakhaberlesme.com.tr/cinar/pcf/pes:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrpcfpes & tail -f /dev/null"
+    ports: []
+    #   - 7008:7008 # endpoint
+    #   - 7051:7051 # notify-callback
+    volumes:
+      - ./ready_config/PCF_PES/pcf-pes-PESSettings.json:/opt/cinar/pcf/pes/PESSettings.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/pcf/pes/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.6.7'
+        aliases:
+          - pcf-pes.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 7008 7051; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_pcf_cs:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_pcf_sms:
+    container_name: 5gcn_pcf_sms
+    image: registry.ulakhaberlesme.com.tr/cinar/pcf/sms:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrpcfsms & tail -f /dev/null"
+    ports: []
+    #   - 7002:7002 # endpoint
+    #   - 7003:7003 # notifyserver
+    #   - 7004:7004 # notifycallback
+    volumes:
+      - ./ready_config/PCF_SMS/pcf-sms-SMSSettings.json:/opt/cinar/pcf/sms/SMSSettings.json
+      - ./ready_config/PCF_SMS/pcf-sms-SMSConfig.json:/opt/cinar/pcf/sms/SMSConfig.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/pcf/sms/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.6.8'
+        aliases:
+          - pcf-sms.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 7002 7003 7004; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_pcf_cs:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_smf:
+    container_name: 5gcn_smf
+    image: registry.ulakhaberlesme.com.tr/cinar/smf/monolith:latest-stable-xenial
+    ports:
+      # - 2152:2152 # http2-upf-gtp-2152
+      # - 6110:6110 # http2-pdu-amf-server-6110
+      # - 6111:6111 # http2-n4-node-client-6111
+      # - 6112:6112 # http2-sdm-subs-server-6112
+      # - 6113:6113 # http2-udm-nf-subs-server-sdm-6113
+      # - 6114:6114 # http2-udm-pcscf-server-6114
+      # - 6115:6115 # http2-amf-nf-subs-server-6115
+      # - 6116:6116 # http2-pcf-notify-server-6116
+      # - 6117:6117 # http2-n4-session-client-6117
+      # - 6118:6118 # http2-amf-notify-server-6118
+      # - 6120:6120 # http2-pcf-nf-subs-server-6120
+      # - 6121:6121 # http2-udm-nf-subs-server-uecm-6121
+      # - 6122:6122 # http2-n4u-client-6122
+      # - 6123:6123 # http2-event-exposure-server-6123
+      # - 6124:6124 # http2-upf-nf-subs-server-port-6124
+      # - 6126:6126 # http2-nef-nf-subs-server-6126
+      # - 6127:6127 # http2-nef-notify-server-6127
+      # - 6128:6128 # http2-amf-event-exposure-notify-6128
+      # - 6129:6129 # http2-amf-event-nf-subs-server-6129
+      # - 6130:6130 # http2-amf-status-change-notify-server-6130
+      # - 6131:6131 # http2-li-server-6131
+      # - 6133:6133 # http2-mdf-server-6133
+      # - 6134:6134 # http2-chf-subs-server-6134
+      # - 6135:6135 # http2-chf-notify-server-6135
+      - 6990:6990 # http2-gui-server-6990
+      - 8080:8080 # http2-metrics-8080
+    volumes:
+      - ./ready_config/SMF/smf-settings.json:/opt/cinar/smf/settings.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/smf/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.7.2'
+        aliases:
+          - smf.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 6110 6112 6113 6115 6116 6118 6120 6121 6123 6124 6126 6127 6128 6129 6130 6131 6134 6990 8080; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_udm:
+    container_name: 5gcn_udm
+    image: registry.ulakhaberlesme.com.tr/cinar/udm/monolith:1.2.3-dbg
+    command: /bin/bash -c "./cnrudm & tail -f /dev/null"
+    ports:
+      # - 5000:5000 # http2-nudm-uecm-5000
+      # - 5001:5001 # http2-nudm-sdm-5001
+      # - 5002:5002 # http2-nudm-ueau-5002
+      # - 5003:5003 # http2-nudm-ee-5003
+      # - 5004:5004 # http2-nudm-pp-5004
+      # - 5005:5005 # http2-nudm-mt-5005
+      - 5019:5019 # http2-prometheus-5019
+      # - 5020:5020 # http2-subscription-5020
+      - 5021:5021 # http2-settings-5021
+      - 5022:5022 # http2-hss-5022
+      # - 5023:5023 # http2-lawful-interception-x1-5023
+      # - 5024:5024 # http2-lawful-interception-x2-5024
+    volumes:
+      - ./ready_config/UDM/udm-settings.json:/opt/cinar/udm/settings.json
+      - ./ready_config/UDM/udm-NFProfile.json:/opt/cinar/udm/NFProfile.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/udm/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.9.1'
+        aliases:
+          - udm.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 5000 5001 5002 5003 5004 5005 5019 5020 5021; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+  ulak_udr:
+    container_name: 5gcn_udr
+    image: registry.ulakhaberlesme.com.tr/cinar/udr/monolith:latest-stable-xenial-dbg
+    command: /bin/bash -c "./cnrudr & tail -f /dev/null"
+    ports:
+      # - 5400:5400 # http2-nudr-dr-5400
+      - 5419:5019 # http2-prometheus-5019
+      - 5421:5421 # http2-settings-5421
+      # - 5422:5422 # http2-data-repository-custom-5422
+      # - 5423:5423 # http2-subscription-5423
+    volumes:
+      - ./ready_config/UDR/udr-settings.json:/opt/cinar/udr/settings.json
+      - ./ready_config/UDR/udr-NFProfile.json:/opt/cinar/udr/NFProfile.json
+      - ./common_certs:/opt/cinar/certificate
+      - ./common_certs:/opt/cinar/udr/certificate
+    networks:
+      privnet:
+        ipv4_address: '20.20.10.1'
+        aliases:
+          - udr.ulak5gcn
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'for port in 5019 5400 5421 5422 5423; do nc -z localhost $$port && echo Port $$port is open || echo Port $$port is closed; done'
+        ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 5s
+    depends_on:
+      paas_mongo:
+        condition: service_healthy
+      ulak_nrf:
+        condition: service_healthy
+      init_config:
+        condition: service_completed_successfully
+
+networks:
+  privnet:
+    name: ulak-privnet
+    ipam:
+      driver: default
+      config:
+        - subnet: 20.20.0.0/16
+          ip_range: 20.20.0.0/16
+          gateway: 20.20.0.1
+    driver_opts:
+      com.docker.network.bridge.name: br-ulak
+

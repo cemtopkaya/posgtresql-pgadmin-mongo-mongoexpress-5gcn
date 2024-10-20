@@ -1,0 +1,16 @@
+{
+  "PCFCSHost": "$ULAK_PCF_CS",
+  "PCFCSPort": 7500,
+  "LogDirectory": "/var/log/cinar/pcf/pes/",
+  "DisplayLog": true,
+  "CreateLogFile": true,
+  "PCFCSTlsSecure": false,
+  "PCFCSMutualAuthenticate": false,
+  "SettingsSubscriptionTimeout": 5,
+  "CSSubscriptionConnectionRetryTimer": 10,
+  "PCFPESAddress": "$ULAK_PCF_PES",
+  "PCFPESPort": 7008,
+  "SmPolicyHeapOperations": true,
+  "AmPolicyHeapOperations": true,
+  "NumOfConcurrencyThreads": 8
+}

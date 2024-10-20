@@ -1,0 +1,47 @@
+{
+  "nrfSettings": {
+    "nrfNFDiscoveryApiHost": "$ULAK_NRF",
+    "nrfNFDiscoveryApiPort": 8006,
+    "nrfNFManagementApiHost": "$ULAK_NRF",
+    "nrfNFManagementApiPort": 8001,
+    "nrfOAuth2ApiHost": "$ULAK_NRF",
+    "nrfOAuth2ApiPort": 8007,
+    "nrfNotificationServerSmsHost": "$ULAK_PCF_SMS",
+    "nrfNotificationServerSmsPort": 7003,
+    "nrfNotificationServerAmsHost": "$ULAK_PCF_AMS",
+    "nrfNotificationServerAmsPort": 7001
+  },
+  "pcfMicroServices": {
+    "pcfMicroservicesSettings": [
+      {
+        "pcfMicroServiceHost": "$ULAK_PCF_OMS",
+        "pcfMicroServiceName": "npcf-operation-maintenance",
+        "pcfMicroServicePort": 7052
+      },
+      {
+        "pcfMicroServiceHost": "$ULAK_PCF_PES",
+        "pcfMicroServiceName": "npcf-policyengine",
+        "pcfMicroServicePort": 7008
+      },
+      {
+        "pcfMicroServiceHost": "$ULAK_PCF_CS",
+        "pcfMicroServiceName": "npcf-configuration",
+        "pcfMicroServicePort": 7050
+      },
+      {
+        "pcfMicroServiceHost": "$ULAK_PCF_IWS",
+        "pcfMicroServiceName": "npcf-interworking",
+        "pcfMicroServicePort": 7020
+      }
+    ]
+  },
+  "security": {
+    "JWTAuthenticate": false,
+    "MutualAuthenticate": false,
+    "TLS": {
+      "PrivateKey": "certificate/localhost.key",
+      "PublicKey": "certificate/localhost.crt"
+    },
+    "TLSSecure": false
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "PCFCSHost": "$ULAK_PCF_CS",
+  "PCFCSPort": 7500,
+  "LogDirectory": "/var/log/cinar/pcf/ams/",
+  "DisplayLog": true,
+  "CreateLogFile": true,
+  "PCFCSTlsSecure": false,
+  "PCFCSMutualAuthenticate": false,
+  "AMFMsgRetryCount": 3,
+  "SettingsSubscriptionTimeout": 5,
+  "CSSubscriptionConnectionRetryTimer": 10,
+  "NumOfConcurrencyThreads": 8,
+  "PCFAMSAddress": "$ULAK_PCF_AMS",
+  "PCFAMSPort": 7000,
+  "PCFHostAddress": "$ULAK_PCF_AMS",
+  "CSSubscriptionEnabled": true
+}

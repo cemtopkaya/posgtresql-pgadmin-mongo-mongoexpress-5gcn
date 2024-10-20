@@ -1,0 +1,28 @@
+{
+  "database": {
+    "ConnectionPoolSize": 2,
+    "ConnectionRetryPeriod": 1,
+    "ConnectionTimeout": 1,
+    "DatabaseName": "$PCF_MONGO_DB_NAME",
+    "DatabaseType": "mongodb",
+    "Port": $PAAS_MONGO_PORT,
+    "Server": "$PAAS_MONGO",
+    "Password": "$PAAS_MONGO_PASS",
+    "UserName": "$PAAS_MONGO_USER",
+    "Tables": []
+  },
+  "logging": {
+    "Directory": "/var/log/cinar/pcf/nfrs/",
+    "LogLevel": "INFO"
+  },
+  "nfrsSettings": {
+    "accessTokenStatus": true,
+    "k8SActive": false,
+    "nfrsNFUpdateNotifyCallbackServerPort": 7080,
+    "nfrsTimers": {
+      "connectionTimeout": 1500,
+      "nfProfileSubscriptionTimerValue": 5,
+      "responseTimeout": 1000
+    }
+  }
+}

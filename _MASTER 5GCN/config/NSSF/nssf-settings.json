@@ -1,0 +1,178 @@
+{
+  "_comment": "The unit for time period is milliseconds.",
+  "date": "2022-Aug-18",
+  "author": "Hakan Batmaz",
+  "General": {
+    "NumberofServingServerThreads": 4,
+    "ClientCount": 4,
+    "ClientTimeout": 3000,
+    "HomePlmnId": {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  },
+  "Tracing": {
+    "jaegerCollectorIP": "192.168.13.17",
+    "jaegerCollectorPort": "34318"
+  },
+  "Security": {
+    "TLSSecure": false,
+    "JWTAuthenticate": false,
+    "MutualAuthenticate": false,
+    "OAuth2": {
+      "PrivateKey": "certificate/jwt.key",
+      "PublicKey": "certificate/jwt.pub"
+    },
+    "TLS": {
+      "PublicKey": "certificate/localhost.crt",
+      "PrivateKey": "certificate/localhost.key"
+    }
+  },
+  "Logging": {
+    "Directory": "/var/log/cinar/nssf/",
+    "DisplayLog": true,
+    "FileName": "NSSF",
+    "LogLevel": "DEBUG"
+  },
+  "NRF": [
+    {
+      "IPAddress": "$ULAK_NRF",
+      "ClientCount": 4,
+      "ClientTimeout": 3000,
+      "NfmServicePort": 8001,
+      "DiscServicePort": 8006,
+      "OAuth2ServicePort": 8007,
+      "TAccessTokenPeriod": 10000,
+      "TCheckPeriod": 60000,
+      "TDiscoveryPeriod": 3000,
+      "TRetryPeriod": 3000
+    }
+  ],
+  "Database": {
+    "DatabaseType": "MONGO",
+    "Server": "$PAAS_MONGO",
+    "Port": $PAAS_MONGO_PORT,
+    "DatabaseName": "$NSSF_MONGO_DB_NAME",
+    "UserName": "$PAAS_MONGO_USER",
+    "Password": "$PAAS_MONGO_PASS",
+    "ConnectionRetryPeriod": 60000,
+    "Tables": [
+      "cinarnsicollection",
+      "cinarnssrulescollection",
+      "cinarconfigurednssaicollection",
+      "cinaramfavailabilitycollection",
+      "cinarnssfsubscinarcollection"
+    ],
+    "ConnectionPoolSize": 4,
+    "ConnectionTimeout": 1000,
+    "ServerSelectionTimeout": 1000,
+    "SocketTimeout": 1000
+  },
+  "AdditionalNFServices": [
+    {
+      "fqdn": "",
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_NSSF",
+          "ipv6Address": "",
+          "port": 8102
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "$NSSF_INSTANCE_ID",
+      "serviceName": "",
+      "versions": [
+        {
+          "apiFullVersion": "v1",
+          "apiVersionInUri": "/nssf-configuration/v1"
+        }
+      ]
+    },
+    {
+      "fqdn": "",
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_NSSF",
+          "ipv6Address": "",
+          "port": 8103
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "https",
+      "serviceInstanceId": "$NSSF_INSTANCE_ID",
+      "serviceName": "",
+      "versions": [
+        {
+          "apiFullVersion": "v1",
+          "apiVersionInUri": "/nssf-settings/v1"
+        }
+      ]
+    },
+    {
+      "fqdn": "",
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_NSSF",
+          "ipv6Address": "",
+          "port": 8104
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "$NSSF_INSTANCE_ID",
+      "serviceName": "",
+      "versions": [
+        {
+          "apiFullVersion": "v1",
+          "apiVersionInUri": "/metrics"
+        }
+      ]
+    },
+    {
+      "fqdn": "",
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_NSSF",
+          "ipv6Address": "",
+          "port": 8105
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "$NSSF_INSTANCE_ID",
+      "serviceName": "",
+      "versions": [
+        {
+          "apiFullVersion": "v1",
+          "apiVersionInUri": "/log/v1"
+        }
+      ]
+    }
+  ],
+  "ServiceSettings": {
+    "AlarmServiceName": "nnssf-nssaiavailability",
+    "NumberofIOServiceThreads": 6,
+    "NSSelectionService": {
+      "ServicePort": 8100,
+      "NssfReroutingOption": "OPTION_A"
+    },
+    "AvaliabilityService": {
+      "ServicePort": 8101,
+      "TSubscriberValidityPeriod": 3600000
+    }
+  },
+  "RoamingPlmns": [
+    {
+      "mcc": "001",
+      "mnc": "002",
+      "v_sst": "1",
+      "v_sd": "abc",
+      "h_sst": "1",
+      "h_sd": "def",
+      "NFDiscoveryUri": "https://$ULAK_NRF:8006",
+      "AccessTokenUri": "https://$ULAK_NRF:8007",
+      "NFManagementUri": "https://$ULAK_NRF:8001"
+    }
+  ]
+}

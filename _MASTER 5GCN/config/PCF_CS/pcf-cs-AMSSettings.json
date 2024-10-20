@@ -1,0 +1,31 @@
+{
+  "amsSettings": {
+    "amsSubscriptionNotifyCallbackServerPort": 7010,
+    "amsTimers": {
+      "amPerfMeasDataProcessTimeInterval": 1,
+      "amPolicyControlDeleteWaitTimeout": 1,
+      "connectionControlTimer": 7,
+      "connectionTimeout": 1500,
+      "subscriptionFailedTimeout": 5
+    },
+    "k8SActive": false,
+    "serviceInstanceId": "",
+    "versions": {
+      "apiVersionInUri": "v1",
+      "expiry": "2030-02-15T10:43:23Z"
+    }
+  },
+  "database": {
+    "ConnectionPoolSize": 10,
+    "DatabaseName": "$PCF_MONGO_DB_NAME",
+    "DatabaseType": "mongodb",
+    "Port": $PAAS_MONGO_PORT,
+    "Server": "$PAAS_MONGO",
+    "Password": "$PAAS_MONGO_PASS",
+    "UserName": "$PAAS_MONGO_USER"
+  },
+  "logging": {
+    "Directory": "/var/log/cinar/pcf/ams/",
+    "LogLevel": "INFO"
+  }
+}

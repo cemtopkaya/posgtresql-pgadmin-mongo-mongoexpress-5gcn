@@ -1,0 +1,47 @@
+{
+  "ServiceSettings": {
+    "ServiceInstanceID": "$PCF_CS_SERVICE_INSTANCE_ID",
+    "PCFInstanceId": "$PCF_INSTANCE_ID",
+    "Versions": [
+      {
+        "APIVersionInUri": "v1",
+        "APIFullVersion": "1.0.0.alpha-1",
+        "Expiry": "2030-Feb-15T10:43:23Z"
+      }
+    ],
+    "IPEndPoints": [
+      {
+        "IPv4Address": "$ULAK_PCF_CS",
+        "IPv6Address": "",
+        "Port": 7050,
+        "Transport": "TCP"
+      }
+    ],
+    "Scheme": "http",
+    "SSLCertificateKeyFile": "certificate/localhost.key",
+    "SSLCertificateFile": "certificate/localhost.crt",
+    "LogDirectory": "/var/log/cinar/pcf/cs/",
+    "DisplayLog": true,
+    "CreateLogFile": true,
+    "accessTokenStatus": false,
+    "K8SActive": false,
+    "PeriodicSchedulerTimer": 30,
+    "PCFSMSIpAddress": "$ULAK_PCF_SMS",
+    "PCFSMSPort": 7004,
+    "PCFNBIPort": 7500,
+    "NBITLSSecure": false
+  },
+  "DBSettings": {
+    "dbtype": "mongodb",
+    "host": "$PAAS_MONGO",
+    "port": $PAAS_MONGO_PORT,
+    "dbname": "$PCF_MONGO_DB_NAME",
+    "username": "$PAAS_MONGO_USER",
+    "password": "$PAAS_MONGO_PASS",
+    "minPoolSize": 4,
+    "maxPoolSize": 4
+  },
+  "logging": {
+    "LogLevel": "INFO"
+  }
+}

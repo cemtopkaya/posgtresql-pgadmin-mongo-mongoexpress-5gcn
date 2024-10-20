@@ -1,0 +1,77 @@
+{
+  "allowedNfTypes": ["PCF", "NEF", "UDM"],
+  "allowedNssais": [
+    {
+      "sst": 1
+    }
+  ],
+  "allowedPlmns": [
+    {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  ],
+  "ipv4Addresses": ["$ULAK_UDR"],
+  "ipv6Addresses": ["::"],
+  "nfInstanceId": "$UDR_INSTANCE_ID",
+  "nfServices": [
+    {
+      "allowedNfTypes": ["PCF", "NEF", "UDM"],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_UDR",
+          "port": 5400,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "95a00fa1-7c7a-4881-9fdb-f952caf67a8c",
+      "serviceName": "nudr-dr",
+      "versions": [
+        {
+          "apiFullVersion": "2.0.1.alpha-1",
+          "apiVersionInUri": "v2"
+        }
+      ]
+    }
+  ],
+  "nfStatus": "REGISTERED",
+  "nfType": "UDR",
+  "perPlmnSnssaiList": [
+    {
+      "plmnId": {
+        "mcc": "001",
+        "mnc": "002"
+      },
+      "sNssaiList": [
+        {
+          "sst": 1
+        }
+      ]
+    }
+  ],
+  "plmnList": [
+    {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  ],
+  "recoveryTime": "2024-09-18T06:42:03Z",
+  "sNssais": [
+    {
+      "sst": 1
+    }
+  ]
+}

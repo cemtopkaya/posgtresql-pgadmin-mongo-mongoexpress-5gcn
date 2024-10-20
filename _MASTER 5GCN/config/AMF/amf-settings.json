@@ -1,0 +1,70 @@
+{
+  "settings": {
+    "AMFServicesConfigurations": {
+      "amfPointer": "0",
+      "timerValues": {
+        "useDefaultValues": "false",
+        "mrtValue": "30",
+        "idtValue": "30",
+        "t3512TimerUnit": "0",
+        "t3512TimerValue": "5",
+        "t3550": "6000",
+        "t3560": "6000",
+        "t3570": "6000",
+        "t3522": "6000",
+        "t3555": "6000",
+        "t3565": "6000"
+      },
+      "nfInstanceId": "$AMF_INSTANCE_ID",
+      "ClientPoolSize": "8",
+      "TQ_THREADCNT_CORE": "0",
+      "TQ_THREADCNT_RAN": "0",
+      "TQ_THREADCNT_SBI": "0",
+      "maxITestLogValue": "100000",
+      "updateUeContextInDbRegularly": "true"
+    },
+    "LogConfigurations": {
+      "DisplayLog": "true",
+      "LogLevel": "DEBUG",
+      "LogPath": "/var/log/cinar/amf",
+      "LogFileName": "cnramf",
+      "LogtoFile": "true"
+    },
+    "generalParameters": {
+      "DBSettings": {
+        "dbname": "$AMF_MONGO_DB_NAME",
+        "dbtype": "mongo",
+        "host": "$PAAS_MONGO",
+        "password": "$PAAS_MONGO_PASS",
+        "port": "$PAAS_MONGO_PORT",
+        "username": "$PAAS_MONGO_USER"
+      },
+      "authJwtPublicKey": "true"
+    },
+    "additionalParameters": {
+      "subscribedUeAmbr": {
+        "ueAggregateMaximumBitRateUl": 300000000,
+        "ueAggregateMaximumBitRateDl": 300000000
+      }
+    },
+    "RabbitMQConfigurations": {
+      "User": "admin",
+      "Password": "admin",
+      "Port": "5672",
+      "Node": "localhost",
+      "AMFExchangeType": "direct"
+    },
+    "cipheringAlgorithmOrder": [
+      "NEA0",
+      "NEA1",
+      "NEA2",
+      "NEA3"
+    ],
+    "integrityAlgorithmOrder": [
+      "NIA1",
+      "NIA2",
+      "NIA3",
+      "NIA0"
+    ]
+  }
+}

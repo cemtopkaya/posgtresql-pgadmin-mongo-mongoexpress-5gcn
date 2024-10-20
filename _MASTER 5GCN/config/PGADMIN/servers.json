@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "UDR PostgreSQL 10.1",
+      "Group": "Servers",
+      "Host": "$PAAS_POSTGRES",
+      "Port": $PAAS_POSTGRES_PORT,
+      "MaintenanceDB": "postgres",
+      "Username": "$PAAS_POSTGRES_USER",
+      "Favorite": true,
+      "SSLMode": "prefer",
+      "PassFile": "/pgpass"
+    }
+  }
+}

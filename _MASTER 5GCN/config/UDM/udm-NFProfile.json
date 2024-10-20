@@ -1,0 +1,278 @@
+{
+  "allowedNfTypes": [
+    "AUSF",
+    "AMF",
+    "SMF",
+    "UDR",
+    "NEF"
+  ],
+  "allowedNssais": [
+    {
+      "sst": 1
+    }
+  ],
+  "allowedPlmns": [
+    {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  ],
+  "ipv4Addresses": [
+    "$ULAK_UDM"
+  ],
+  "ipv6Addresses": [
+    "::"
+  ],
+  "nfInstanceId": "$UDM_INSTANCE_ID",
+  "nfServices": [
+    {
+      "allowedNfTypes": [
+        "AUSF",
+        "AMF",
+        "SMF",
+        "UDR",
+        "NEF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_UDM",
+          "port": 5000,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "75cf5e6c-8202-46a0-924e-a0fdf4ae1bec",
+      "serviceName": "nudm-uecm",
+      "versions": [
+        {
+          "apiFullVersion": "1.0.2.alpha-1",
+          "apiVersionInUri": "v1"
+        }
+      ]
+    },
+    {
+      "allowedNfTypes": [
+        "AUSF",
+        "AMF",
+        "SMF",
+        "UDR",
+        "NEF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_UDM",
+          "port": 5001,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "04ac4cdc-7157-47a5-b500-ef143f4cd962",
+      "serviceName": "nudm-sdm",
+      "versions": [
+        {
+          "apiFullVersion": "2.0.1.alpha-1",
+          "apiVersionInUri": "v2"
+        }
+      ]
+    },
+    {
+      "allowedNfTypes": [
+        "AUSF",
+        "AMF",
+        "SMF",
+        "UDR",
+        "NEF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_UDM",
+          "port": 5002,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "d3916921-6854-42a7-aa25-ff965deae38a",
+      "serviceName": "nudm-ueau",
+      "versions": [
+        {
+          "apiFullVersion": "1.0.1.alpha-1",
+          "apiVersionInUri": "v1"
+        }
+      ]
+    },
+    {
+      "allowedNfTypes": [
+        "AUSF",
+        "AMF",
+        "SMF",
+        "UDR",
+        "NEF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_UDM",
+          "port": 5003,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "2148b4c2-a0fe-4a11-9401-d73d597e1186",
+      "serviceName": "nudm-ee",
+      "versions": [
+        {
+          "apiFullVersion": "1.0.2.alpha-1",
+          "apiVersionInUri": "v1"
+        }
+      ]
+    },
+    {
+      "allowedNfTypes": [
+        "AUSF",
+        "AMF",
+        "SMF",
+        "UDR",
+        "NEF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_UDM",
+          "port": 5004,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "9764dc49-36d9-4a96-83f5-945a416f0f46",
+      "serviceName": "nudm-pp",
+      "versions": [
+        {
+          "apiFullVersion": "1.0.2.alpha-1",
+          "apiVersionInUri": "v1"
+        }
+      ]
+    },
+    {
+      "allowedNfTypes": [
+        "AUSF",
+        "AMF",
+        "SMF",
+        "UDR",
+        "NEF"
+      ],
+      "allowedNssais": [
+        {
+          "sst": 1
+        }
+      ],
+      "allowedPlmns": [
+        {
+          "mcc": "001",
+          "mnc": "002"
+        }
+      ],
+      "ipEndPoints": [
+        {
+          "ipv4Address": "$ULAK_UDM",
+          "port": 5005,
+          "transport": "TCP"
+        }
+      ],
+      "nfServiceStatus": "REGISTERED",
+      "scheme": "http",
+      "serviceInstanceId": "a76c1775-de48-490f-b98f-1bbb5c9781ae",
+      "serviceName": "nudm-mt",
+      "versions": [
+        {
+          "apiFullVersion": "1.0.2.alpha-1",
+          "apiVersionInUri": "v1"
+        }
+      ]
+    }
+  ],
+  "nfStatus": "REGISTERED",
+  "nfType": "UDM",
+  "perPlmnSnssaiList": [
+    {
+      "plmnId": {
+        "mcc": "001",
+        "mnc": "002"
+      },
+      "sNssaiList": [
+        {
+          "sst": 1
+        }
+      ]
+    }
+  ],
+  "plmnList": [
+    {
+      "mcc": "001",
+      "mnc": "002"
+    }
+  ],
+  "recoveryTime": "2024-09-18T06:41:12Z",
+  "sNssais": [
+    {
+      "sst": 1
+    }
+  ]
+}
